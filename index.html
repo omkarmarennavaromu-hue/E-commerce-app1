@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+  />
+  <title>Premium E-Commerce Mobile UI</title>
+  <style>
+    :root {
+      --bg: #f4f5f7;
+      --bg-soft: rgba(255, 255, 255, 0.72);
+      --card: rgba(255, 255, 255, 0.58);
+      --card-strong: rgba(255, 255, 255, 0.88);
+      --text: #0f1728;
+      --muted: #6f7785;
+      --line: rgba(15, 23, 40, 0.08);
+      --accent: #2358ff;
+      --accent-soft: rgba(35, 88, 255, 0.12);
+      --shadow: 0 18px 50px rgba(17, 24, 39, 0.08);
+      --shadow-soft: 0 10px 24px rgba(17, 24, 39, 0.06);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --safe-bottom: env(safe-area-inset-bottom, 20px);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --blur: blur(24px);
+      --maxw: 430px;
+      --transition: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at top left, rgba(35, 88, 255, 0.08), transparent 28%),
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.9), transparent 22%),
+        linear-gradient(180deg, #f8f9fb 0%, #f2f4f7 45%, #eef1f5 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      color: var(--text);
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 24px 14px;
+    }
+
+    .phone-shell {
+      width: 100%;
+      max-width: var(--maxw);
+      min-height: 932px;
+      border-radius: 42px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,255,255,0.62));
+      box-shadow:
+        0 30px 80px rgba(15, 23, 40, 0.16),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+      border: 1px solid rgba(255,255,255,0.6);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .app {
+      position: relative;
+      min-height: 932px;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(35, 88, 255, 0.06), transparent 28%),
+        linear-gradient(180deg, #f7f8fa 0%, #f2f4f7 52%, #eef1f5 100%);
+    }
+
+    .status-glow {
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 160px;
+      background: radial-gradient(circle, rgba(35, 88, 255, 0.10), transparent 70%);
+      pointer-events: none;
+      filter: blur(10px);
+    }
+
+    .screen {
+      display: none;
+      min-height: 932px;
+      padding: calc(24px + var(--safe-top)) 20px calc(120px + var(--safe-bottom));
+      animation: screenIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes screenIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .title {
+      font-size: clamp(28px, 5vw, 38px);
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 10px 0 0;
+    }
+
+    .icon-btn,
+    .pill-btn {
+      border: 0;
+      outline: 0;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), opacity var(--transition);
+    }
+
+    .icon-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      background: var(--bg-soft);
+      backdrop-filter: var(--blur);
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.45);
+    }
+
+    .icon-btn:active,
+    .pill-btn:active,
+    .nav-item:active,
+    .product-card:active,
+    .hero-card:active,
+    .cart-item:active,
+    .recent-chip:active,
+    .category-chip:active {
+      transform: scale(0.98);
+    }
+
+    .glass {
+      background: var(--card);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 30px;
+      padding: 22px;
+      overflow: hidden;
+      min-height: 310px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0.78)),
+        radial-gradient(circle at top left, rgba(35,88,255,0.18), transparent 42%),
+        #f7f9ff;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.6);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+    }
+
+    .hero-card:hover,
+    .product-card:hover,
+    .cart-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 26px 60px rgba(17, 24, 39, 0.10);
+    }
+
+    .hero-image {
+      position: absolute;
+      top: 10px;
+      right: -12px;
+      width: 62%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 28px;
+      filter: saturate(1.05) contrast(1.02);
+    }
+
+    .hero-badge {
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(18px);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 30px;
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      max-width: 52%;
+      margin: 0 0 10px;
+      font-weight: 700;
+    }
+
+    .hero-copy {
+      font-size: 14px;
+      color: #5f6878;
+      max-width: 56%;
+      line-height: 1.5;
+      margin: 0 0 18px;
+    }
+
+    .hero-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .price {
+      font-size: 24px;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+    }
+
+    .price small {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-left: 6px;
+    }
+
+    .pill-btn {
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-weight: 650;
+      font-size: 14px;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(35, 88, 255, 0.28);
+    }
+
+    .pill-btn.secondary {
+      background: rgba(255,255,255,0.85);
+      color: var(--text);
+      box-shadow: none;
+      border: 1px solid rgba(15,23,40,0.06);
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+
+    .section-link {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .h-scroll {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .h-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mini-card {
+      min-width: 180px;
+      scroll-snap-align: start;
+      border-radius: 26px;
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: var(--blur);
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .mini-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 22px;
+      display: block;
+      margin-bottom: 14px;
+      background: #eef2f7;
+    }
+
+    .mini-card-title {
+      font-size: 16px;
+      letter-spacing: -0.03em;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .search-wrap {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .searchbar {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: var(--blur);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255,255,255,0.62);
+    }
+
+    .searchbar input {
+      border: 0;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .searchbar input::placeholder {
+      color: #8a92a1;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .recent-chip,
+    .category-chip {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: var(--shadow-soft);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 550;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition);
+    }
+
+    .recent-chip.active,
+    .category-chip.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .listing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .product-card {
+      border-radius: 28px;
+      padding: 12px;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: var(--blur);
+      border: 1px solid rgba(255,255,255,0.62);
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .product-card img {
+      width: 100%;
+      aspect-ratio: 0.92 / 1;
+      object-fit: cover;
+      border-radius: 22px;
+      display: block;
+      margin-bottom: 12px;
+      background: #eef2f7;
+    }
+
+    .product-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .product-title {
+      font-size: 16px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin: 0;
+      font-weight: 650;
+    }
+
+    .product-tag {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(35,88,255,0.08);
+      color: var(--accent);
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.85);
+      font-size: 12px;
+      font-weight: 600;
+      color: #536070;
+      margin-top: 10px;
+    }
+
+    .detail-gallery {
+      position: relative;
+      border-radius: 34px;
+      padding: 14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.68), rgba(255,255,255,0.92)),
+        radial-gradient(circle at top left, rgba(35,88,255,0.10), transparent 30%);
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .detail-main-image {
+      width: 100%;
+      aspect-ratio: 1 / 1.1;
+      object-fit: cover;
+      border-radius: 28px;
+      display: block;
+      background: #eef2f7;
+    }
+
+    .thumbs {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .thumbs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .thumb {
+      width: 74px;
+      height: 74px;
+      border-radius: 18px;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 0.72;
+      border: 2px solid transparent;
+      transition: opacity var(--transition), transform var(--transition), border-color var(--transition);
+    }
+
+    .thumb.active {
+      opacity: 1;
+      border-color: rgba(35,88,255,0.45);
+      transform: scale(1.02);
+    }
+
+    .detail-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 8px 0 12px;
+    }
+
+    .badge {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.85);
+      box-shadow: var(--shadow-soft);
+      color: #5d6877;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .detail-title {
+      font-size: 32px;
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      margin: 0 0 10px;
+      font-weight: 720;
+    }
+
+    .detail-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 0 18px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .feature-card {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.74);
+      backdrop-filter: var(--blur);
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .feature-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .feature-value {
+      font-size: 16px;
+      letter-spacing: -0.03em;
+      font-weight: 650;
+    }
+
+    .sticky-bar {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: calc(92px + var(--safe-bottom));
+      width: calc(100% - 28px);
+      max-width: calc(var(--maxw) - 28px);
+      padding: 14px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,0.64);
+      box-shadow: 0 20px 50px rgba(15,23,40,0.12);
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 20;
+    }
+
+    .sticky-bar.show {
+      display: flex;
+      animation: floatUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes floatUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .sticky-meta .small {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .sticky-meta strong {
+      font-size: 22px;
+      letter-spacing: -0.04em;
+    }
+
+    .cart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(255,255,255,0.62);
+      backdrop-filter: var(--blur);
+      box-shadow: var(--shadow-soft);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .cart-item img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 22px;
+      background: #eef2f7;
+    }
+
+    .cart-item-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(35,88,255,0.08);
+      color: var(--accent);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .summary-card {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 30px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.74), rgba(255,255,255,0.94));
+      border: 1px solid rgba(255,255,255,0.62);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 14px;
+      color: #5f6878;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-top: 10px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .profile-card {
+      padding: 22px;
+      border-radius: 32px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.92)),
+        radial-gradient(circle at top left, rgba(35,88,255,0.08), transparent 30%);
+      border: 1px solid rgba(255,255,255,0.62);
+      box-shadow: var(--shadow);
+    }
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 24px;
+      object-fit: cover;
+      background: #dde5f2;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .menu-list {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(255,255,255,0.62);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .menu-left {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .menu-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(35,88,255,0.08);
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: calc(18px + var(--safe-bottom));
+      width: calc(100% - 28px);
+      max-width: calc(var(--maxw) - 28px);
+      padding: 10px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.74);
+      backdrop-filter: blur(26px);
+      -webkit-backdrop-filter: blur(26px);
+      box-shadow: 0 18px 50px rgba(15, 23, 40, 0.12);
+      border: 1px solid rgba(255,255,255,0.65);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      z-index: 30;
+    }
+
+    .nav-item {
+      border: 0;
+      background: transparent;
+      border-radius: 18px;
+      padding: 10px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      color: #7d8593;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+    }
+
+    .nav-item .nav-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      background: transparent;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+    }
+
+    .nav-item.active .nav-icon {
+      background: rgba(35,88,255,0.10);
+      box-shadow: inset 0 0 0 1px rgba(35,88,255,0.08);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--line);
+      margin: 18px 0;
+    }
+
+    .floating-note {
+      padding: 14px 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.58);
+      box-shadow: var(--shadow-soft);
+      color: #556173;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .fade-up {
+      animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 380px) {
+      .hero-title {
+        max-width: 60%;
+        font-size: 26px;
+      }
+
+      .hero-copy {
+        max-width: 62%;
+      }
+
+      .detail-title {
+        font-size: 28px;
+      }
+
+      .title {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-shell">
+    <div class="app">
+      <div class="status-glow"></div>
+
+      <!-- HOME -->
+      <section class="screen active" id="screen-home">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Curated Shopping</div>
+            <h1 class="title">Elevated essentials.</h1>
+            <p class="subtitle">A calm, luxurious shopping experience with space to breathe.</p>
+          </div>
+          <button class="icon-btn" aria-label="Notifications">✦</button>
+        </div>
+
+        <div class="hero-card" data-open-product="headphones">
+          <img
+            class="hero-image"
+            src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80"
+            alt="Premium headphones"
+          />
+          <div class="hero-badge">Featured drop</div>
+          <h2 class="hero-title">Auralux Pro</h2>
+          <p class="hero-copy">
+            Spatial sound, sculpted aluminum, and a serene listening experience.
+          </p>
+          <div class="hero-footer">
+            <div class="price">₹24,990 <small>inclusive of premium care</small></div>
+            <button class="pill-btn">Explore</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h3 class="section-title">New arrivals</h3>
+            <a href="#" class="section-link" data-screen-link="listing">See all</a>
+          </div>
+
+          <div class="h-scroll">
+            <div class="mini-card" data-open-product="watch">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80" alt="Luxury smartwatch" />
+              <h4 class="mini-card-title">Chrono One</h4>
+              <div class="muted">Titanium finish · Sapphire glass</div>
+              <div class="price" style="font-size:18px; margin-top:10px;">₹18,490</div>
+            </div>
+
+            <div class="mini-card" data-open-product="speaker">
+              <img src="https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=900&q=80" alt="Premium speaker" />
+              <h4 class="mini-card-title">Forma Mini</h4>
+              <div class="muted">Room-filling sound · Soft-touch mesh</div>
+              <div class="price" style="font-size:18px; margin-top:10px;">₹12,990</div>
+            </div>
+
+            <div class="mini-card" data-open-product="bag">
+              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80" alt="Premium sneakers" />
+              <h4 class="mini-card-title">Cloud Run</h4>
+              <div class="muted">Everyday comfort · Clean silhouette</div>
+              <div class="price" style="font-size:18px; margin-top:10px;">₹9,990</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h3 class="section-title">Collections</h3>
+          </div>
+          <div class="chip-row">
+            <div class="category-chip active">Audio</div>
+            <div class="category-chip">Wearables</div>
+            <div class="category-chip">Home</div>
+            <div class="category-chip">Lifestyle</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="floating-note">
+            Thoughtful product curation, subtle motion, and premium visual hierarchy replace the noise of a typical marketplace.
+          </div>
+        </div>
+      </section>
+
+      <!-- SEARCH -->
+      <section class="screen" id="screen-search">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Search</div>
+            <h1 class="title">Find beautifully.</h1>
+          </div>
+          <button class="icon-btn" aria-label="Voice Search">⌕</button>
+        </div>
+
+        <div class="search-wrap">
+          <div class="searchbar">
+            <span>🔍</span>
+            <input id="searchInput" placeholder="Search products, brands, collections" />
+          </div>
+          <button class="icon-btn" aria-label="Filters">☰</button>
+        </div>
+
+        <div class="section" style="margin-top: 10px;">
+          <div class="section-head">
+            <h3 class="section-title">Recent searches</h3>
+          </div>
+          <div class="chip-row">
+            <button class="recent-chip">noise cancelling</button>
+            <button class="recent-chip">minimal watch</button>
+            <button class="recent-chip">blue sneakers</button>
+            <button class="recent-chip">desk speaker</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h3 class="section-title">Popular categories</h3>
+          </div>
+          <div class="h-scroll">
+            <div class="mini-card" data-screen-link="listing">
+              <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=900&q=80" alt="Audio" />
+              <h4 class="mini-card-title">Audio</h4>
+              <div class="muted">Immersive listening, refined design</div>
+            </div>
+            <div class="mini-card" data-screen-link="listing">
+              <img src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=900&q=80" alt="Wearables" />
+              <h4 class="mini-card-title">Wearables</h4>
+              <div class="muted">Precision meets soft materials</div>
+            </div>
+            <div class="mini-card" data-screen-link="listing">
+              <img src="https://images.unsplash.com/photo-1511385348-a52b4a160dc2?auto=format&fit=crop&w=900&q=80" alt="Lifestyle" />
+              <h4 class="mini-card-title">Lifestyle</h4>
+              <div class="muted">Quiet luxury, everyday utility</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LISTING -->
+      <section class="screen" id="screen-listing">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Products</div>
+            <h1 class="title">Curated grid.</h1>
+            <p class="subtitle">Premium cards, spacious rhythm, image-first browsing.</p>
+          </div>
+          <button class="icon-btn" aria-label="Sort">⇅</button>
+        </div>
+
+        <div class="filters">
+          <button class="category-chip active">All</button>
+          <button class="category-chip">Premium</button>
+          <button class="category-chip">Newest</button>
+          <button class="category-chip">Audio</button>
+          <button class="category-chip">Wearables</button>
+          <button class="category-chip">Lifestyle</button>
+        </div>
+
+        <div class="listing-grid">
+          <div class="product-card" data-open-product="headphones">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80" alt="Headphones" />
+            <div class="product-topline">
+              <h4 class="product-title">Auralux Pro</h4>
+              <div class="product-tag">01</div>
+            </div>
+            <div class="muted">Active noise canceling</div>
+            <div class="rating">★ 4.9 · Premium audio</div>
+            <div class="price" style="font-size:19px; margin-top:10px;">₹24,990</div>
+          </div>
+
+          <div class="product-card" data-open-product="watch">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80" alt="Watch" />
+            <div class="product-topline">
+              <h4 class="product-title">Chrono One</h4>
+              <div class="product-tag">02</div>
+            </div>
+            <div class="muted">Titanium smartwatch</div>
+            <div class="rating">★ 4.8 · Wellness ready</div>
+            <div class="price" style="font-size:19px; margin-top:10px;">₹18,490</div>
+          </div>
+
+          <div class="product-card" data-open-product="speaker">
+            <img src="https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=900&q=80" alt="Speaker" />
+            <div class="product-topline">
+              <h4 class="product-title">Forma Mini</h4>
+              <div class="product-tag">03</div>
+            </div>
+            <div class="muted">Wireless home speaker</div>
+            <div class="rating">★ 4.7 · Warm acoustics</div>
+            <div class="price" style="font-size:19px; margin-top:10px;">₹12,990</div>
+          </div>
+
+          <div class="product-card" data-open-product="sneaker">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80" alt="Sneakers" />
+            <div class="product-topline">
+              <h4 class="product-title">Cloud Run</h4>
+              <div class="product-tag">04</div>
+            </div>
+            <div class="muted">Soft-motion sneaker</div>
+            <div class="rating">★ 4.8 · Everyday luxury</div>
+            <div class="price" style="font-size:19px; margin-top:10px;">₹9,990</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCT DETAIL -->
+      <section class="screen" id="screen-detail">
+        <div class="topbar">
+          <button class="icon-btn" aria-label="Back" data-back-home>←</button>
+          <div style="display:flex; gap:10px;">
+            <button class="icon-btn" aria-label="Save">♡</button>
+            <button class="icon-btn" aria-label="Share">↗</button>
+          </div>
+        </div>
+
+        <div class="detail-gallery">
+          <img
+            id="detailMainImage"
+            class="detail-main-image"
+            src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80"
+            alt="Product detail"
+          />
+
+          <div class="thumbs" id="thumbs">
+            <img class="thumb active" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80" alt="" />
+            <img class="thumb" src="https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=500&q=80" alt="" />
+            <img class="thumb" src="https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=500&q=80" alt="" />
+          </div>
+        </div>
+
+        <div class="detail-meta">
+          <div class="badge">Premium selection</div>
+          <div class="badge">Free express delivery</div>
+          <div class="badge">2 year care</div>
+        </div>
+
+        <h1 class="detail-title" id="detailTitle">Auralux Pro</h1>
+        <div class="price" id="detailPrice">₹24,990 <small id="detailCategory">Audio</small></div>
+        <p class="detail-desc" id="detailDesc">
+          Sculpted for calm listening, Auralux Pro combines immersive sound, precision materials, and a minimal form that feels at home in a luxury-first interface.
+        </p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-label">Finish</div>
+            <div class="feature-value">Satin aluminum</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-label">Battery</div>
+            <div class="feature-value">32 hours</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-label">Sound</div>
+            <div class="feature-value">Spatial audio</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-label">Comfort</div>
+            <div class="feature-value">Memory foam</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CART -->
+      <section class="screen" id="screen-cart">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Cart</div>
+            <h1 class="title">Chosen with care.</h1>
+          </div>
+          <button class="icon-btn" aria-label="More">⋯</button>
+        </div>
+
+        <div class="cart-list">
+          <div class="cart-item">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80" alt="Headphones" />
+            <div>
+              <div class="cart-item-head">
+                <div>
+                  <div class="product-title">Auralux Pro</div>
+                  <div class="muted">Royal blue · Premium audio</div>
+                </div>
+                <div class="price" style="font-size:18px;">₹24,990</div>
+              </div>
+              <div class="qty-row">
+                <button class="qty-btn">−</button>
+                <div class="muted" style="font-weight:700; color:var(--text);">1</div>
+                <button class="qty-btn">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cart-item">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80" alt="Watch" />
+            <div>
+              <div class="cart-item-head">
+                <div>
+                  <div class="product-title">Chrono One</div>
+                  <div class="muted">Silver titanium · Smart wearable</div>
+                </div>
+                <div class="price" style="font-size:18px;">₹18,490</div>
+              </div>
+              <div class="qty-row">
+                <button class="qty-btn">−</button>
+                <div class="muted" style="font-weight:700; color:var(--text);">1</div>
+                <button class="qty-btn">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="section-head" style="margin-bottom: 6px;">
+            <h3 class="section-title">Summary</h3>
+          </div>
+
+          <div class="summary-line">
+            <span>Subtotal</span>
+            <strong style="color:var(--text)">₹43,480</strong>
+          </div>
+          <div class="summary-line">
+            <span>Premium delivery</span>
+            <strong style="color:var(--text)">Free</strong>
+          </div>
+          <div class="summary-line">
+            <span>Protection plan</span>
+            <strong style="color:var(--text)">Included</strong>
+          </div>
+
+          <div class="summary-total">
+            <div>
+              <div class="muted">Total</div>
+              <div class="price">₹43,480</div>
+            </div>
+            <button class="pill-btn">Checkout</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="screen" id="screen-profile">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Profile</div>
+            <h1 class="title">Quietly personal.</h1>
+          </div>
+          <button class="icon-btn" aria-label="Settings">⚙</button>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-row">
+            <img
+              class="avatar"
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80"
+              alt="User avatar"
+            />
+            <div>
+              <div style="font-size:24px; font-weight:700; letter-spacing:-0.04em;">Aarav Mehta</div>
+              <div class="muted" style="margin-top:6px;">Premium member · Since 2024</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="chip-row">
+            <div class="recent-chip active">3 active orders</div>
+            <div class="recent-chip">8 wishlisted</div>
+            <div class="recent-chip">2 returns</div>
+          </div>
+        </div>
+
+        <div class="menu-list">
+          <div class="menu-item">
+            <div class="menu-left">
+              <div class="menu-icon">⌂</div>
+              <div>
+                <div class="product-title">Addresses</div>
+                <div class="muted">Manage delivery locations</div>
+              </div>
+            </div>
+            <div class="muted">›</div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-left">
+              <div class="menu-icon">□</div>
+              <div>
+                <div class="product-title">Orders</div>
+                <div class="muted">Track and review purchases</div>
+              </div>
+            </div>
+            <div class="muted">›</div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-left">
+              <div class="menu-icon">♡</div>
+              <div>
+                <div class="product-title">Wishlist</div>
+                <div class="muted">Saved premium selections</div>
+              </div>
+            </div>
+            <div class="muted">›</div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-left">
+              <div class="menu-icon">◌</div>
+              <div>
+                <div class="product-title">Payment methods</div>
+                <div class="muted">Cards, UPI, and security</div>
+              </div>
+            </div>
+            <div class="muted">›</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="sticky-bar" id="stickyBar">
+        <div class="sticky-meta">
+          <div class="small">Ready to add</div>
+          <strong id="stickyPrice">₹24,990</strong>
+        </div>
+        <button class="pill-btn">Add to cart</button>
+      </div>
+
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-screen="home">
+          <span class="nav-icon">⌂</span>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" data-screen="search">
+          <span class="nav-icon">⌕</span>
+          <span>Search</span>
+        </button>
+        <button class="nav-item" data-screen="listing">
+          <span class="nav-icon">◫</span>
+          <span>Shop</span>
+        </button>
+        <button class="nav-item" data-screen="cart">
+          <span class="nav-icon">◔</span>
+          <span>Cart</span>
+        </button>
+        <button class="nav-item" data-screen="profile">
+          <span class="nav-icon">◎</span>
+          <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    const screens = document.querySelectorAll(".screen");
+    const navItems = document.querySelectorAll(".nav-item");
+    const stickyBar = document.getElementById("stickyBar");
+    const stickyPrice = document.getElementById("stickyPrice");
+
+    const detailTitle = document.getElementById("detailTitle");
+    const detailPrice = document.getElementById("detailPrice");
+    const detailCategory = document.getElementById("detailCategory");
+    const detailDesc = document.getElementById("detailDesc");
+    const detailMainImage = document.getElementById("detailMainImage");
+    const thumbsWrap = document.getElementById("thumbs");
+
+    const productData = {
+      headphones: {
+        title: "Auralux Pro",
+        price: "₹24,990",
+        category: "Audio",
+        desc: "Sculpted for calm listening, Auralux Pro combines immersive sound, precision materials, and a minimal form that feels at home in a luxury-first interface.",
+        images: [
+          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=1200&q=80"
+        ]
+      },
+      watch: {
+        title: "Chrono One",
+        price: "₹18,490",
+        category: "Wearable",
+        desc: "A titanium-forward smartwatch with understated elegance, balanced proportions, and an interface built around clarity rather than visual noise.",
+        images: [
+          "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=1200&q=80"
+        ]
+      },
+      speaker: {
+        title: "Forma Mini",
+        price: "₹12,990",
+        category: "Home Audio",
+        desc: "Compact, tactile, and acoustically rich. Forma Mini is designed for spaces that value restraint, texture, and warm room-filling sound.",
+        images: [
+          "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1589003077984-894e133dabab?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1200&q=80"
+        ]
+      },
+      sneaker: {
+        title: "Cloud Run",
+        price: "₹9,990",
+        category: "Lifestyle",
+        desc: "Lightweight, premium, and visually quiet. Cloud Run brings elevated material contrast and all-day softness to an urban silhouette.",
+        images: [
+          "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=1200&q=80"
+        ]
+      },
+      bag: {
+        title: "Cloud Run",
+        price: "₹9,990",
+        category: "Lifestyle",
+        desc: "Lightweight, premium, and visually quiet. Cloud Run brings elevated material contrast and all-day softness to an urban silhouette.",
+        images: [
+          "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=1200&q=80"
+        ]
+      }
+    };
+
+    function showScreen(screenName) {
+      screens.forEach(screen => screen.classList.remove("active"));
+      document.getElementById(`screen-${screenName}`).classList.add("active");
+
+      navItems.forEach(item => {
+        item.classList.toggle("active", item.dataset.screen === screenName);
+      });
+
+      if (screenName === "detail") {
+        stickyBar.classList.add("show");
+      } else {
+        stickyBar.classList.remove("show");
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderDetail(productKey) {
+      const product = productData[productKey];
+      if (!product) return;
+
+      detailTitle.textContent = product.title;
+      detailPrice.innerHTML = `${product.price} <small id="detailCategory">${product.category}</small>`;
+      detailDesc.textContent = product.desc;
+      detailMainImage.src = product.images[0];
+      stickyPrice.textContent = product.price;
+
+      thumbsWrap.innerHTML = "";
+      product.images.forEach((src, index) => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.className = "thumb" + (index === 0 ? " active" : "");
+        img.alt = product.title;
+        img.addEventListener("click", () => {
+          detailMainImage.src = src;
+          document.querySelectorAll(".thumb").forEach(t => t.classList.remove("active"));
+          img.classList.add("active");
+        });
+        thumbsWrap.appendChild(img);
+      });
+
+      showScreen("detail");
+    }
+
+    navItems.forEach(item => {
+      item.addEventListener("click", () => showScreen(item.dataset.screen));
+    });
+
+    document.querySelectorAll("[data-screen-link]").forEach(el => {
+      el.addEventListener("click", e => {
+        e.preventDefault();
+        showScreen(el.dataset.screenLink);
+      });
+    });
+
+    document.querySelectorAll("[data-open-product]").forEach(card => {
+      card.addEventListener("click", () => renderDetail(card.dataset.openProduct));
+    });
+
+    document.querySelector("[data-back-home]").addEventListener("click", () => showScreen("home"));
+
+    document.querySelectorAll(".recent-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const input = document.getElementById("searchInput");
+        input.value = chip.textContent;
+        chip.classList.add("active");
+        setTimeout(() => chip.classList.remove("active"), 700);
+      });
+    });
+
+    document.querySelectorAll(".category-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const group = chip.parentElement.querySelectorAll(".category-chip");
+        group.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
